@@ -52,20 +52,22 @@ parser = argparse.ArgumentParser()
 parser.add_argument('testcase', default="testcase.csv")
 args = parser.parse_args()
 
-st = pathlib.PurePath(args.testcase).stem
+# is csv file?
+sf = pathlib.Path(args.testcase).suffix
+
+if sf != '.csv' :
+    print("inputfile is not csv file.")
 
 try :
     f_csv = open(args.testcase)
 except OSError as err:
     print(err)
 
-print(st+'.c')
-
+# open testcode file
 try :
-    f_c = open(st+'.c', mode='w')
+    f_c = open(pathlib.Path(args.testcase).stem+'.c', mode='w')
 except OSError as err:
     print(err)
-
 
 dataset = [data for data in csv.DictReader(f_csv, delimiter='\t')]
 keys = [key for key in dataset[0].keys()]
